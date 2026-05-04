@@ -1,16 +1,25 @@
 :root {
 	color-scheme: light;
-	--color-bg: #f7f3ea;
-	--color-surface: #fffdf8;
-	--color-text: #202124;
-	--color-muted: #6b6258;
-	--color-border: #ddd4c6;
-	--color-primary: #206a5d;
-	--color-primary-strong: #164d44;
-	--color-accent: #b45b35;
-	--shadow-soft: 0 16px 40px rgba(45, 38, 28, 0.08);
+	--color-bg: #eaf1ff;
+	--color-surface: #f7faff;
+	--color-text: #142849;
+	--color-muted: #4f678f;
+	--color-border: #c8d7f3;
+	--color-primary: #365d9f;
+	--color-primary-strong: #234377;
+	--color-accent: #5b80c5;
+	--shadow-soft: 0 16px 38px rgba(17, 42, 86, 0.14);
+	--radius-soft: 16px;
 	font-family:
-		Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		"SF Pro Rounded",
+		"PingFang SC",
+		"Hiragino Sans GB",
+		"Microsoft YaHei",
+		"Noto Sans SC",
+		"Nunito",
+		ui-sans-serif,
+		system-ui,
+		sans-serif;
 }
 
 * {
@@ -27,9 +36,13 @@ body {
 	min-width: 320px;
 	color: var(--color-text);
 	background:
-		linear-gradient(180deg, rgba(255, 253, 248, 0.8), rgba(247, 243, 234, 0.9)),
+		radial-gradient(circle at top left, rgba(155, 189, 255, 0.58), transparent 34%),
+		radial-gradient(circle at top right, rgba(179, 210, 255, 0.52), transparent 30%),
+		linear-gradient(180deg, rgba(248, 251, 255, 0.92), rgba(235, 243, 255, 0.95)),
 		var(--color-bg);
 	line-height: 1.7;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -85,11 +98,11 @@ main {
 	position: absolute;
 	width: 28px;
 	height: 28px;
-	border: 2px solid rgba(119, 255, 230, 0.92);
+	border: 2px solid rgba(90, 132, 213, 0.72);
 	border-radius: 50%;
 	box-shadow:
-		0 0 18px rgba(119, 255, 230, 0.85),
-		inset 0 0 16px rgba(255, 255, 255, 0.35);
+		0 0 18px rgba(90, 132, 213, 0.48),
+		inset 0 0 16px rgba(255, 255, 255, 0.6);
 	transform: translate(-50%, -50%) scale(0);
 	pointer-events: none;
 	animation: text-ripple 720ms ease-out forwards;
@@ -100,10 +113,10 @@ main {
 	width: 7px;
 	height: 7px;
 	border-radius: 50%;
-	background: #fffdf7;
+	background: #f2f6ff;
 	box-shadow:
-		0 0 12px rgba(119, 255, 230, 0.95),
-		0 0 18px rgba(255, 91, 123, 0.72);
+		0 0 12px rgba(104, 150, 235, 0.75),
+		0 0 18px rgba(133, 176, 245, 0.54);
 	transform: translate(-50%, -50%);
 	pointer-events: none;
 	animation: button-particle 620ms ease-out forwards;
@@ -134,8 +147,10 @@ main {
 	padding: 22px;
 	min-height: 220px;
 	border: 1px solid var(--color-border);
-	border-radius: 8px;
-	background: var(--color-surface);
+	border-radius: var(--radius-soft);
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(246, 250, 255, 0.96)),
+		var(--color-surface);
 	box-shadow: var(--shadow-soft);
 	text-decoration: none;
 }
@@ -143,7 +158,8 @@ main {
 .post-card:hover {
 	border-color: color-mix(in srgb, var(--color-primary) 35%, var(--color-border));
 	color: var(--color-text);
-	transform: translateY(-1px);
+	box-shadow: 0 20px 46px rgba(31, 76, 147, 0.2);
+	transform: translateY(-2px);
 }
 
 .post-card h2,
@@ -177,13 +193,15 @@ main {
 }
 
 .tag {
+	position: relative;
 	display: inline-flex;
 	align-items: center;
 	min-height: 32px;
 	padding: 4px 10px;
+	overflow: visible;
 	border: 1px solid var(--color-border);
 	border-radius: 999px;
-	background: rgba(255, 253, 248, 0.72);
+	background: rgba(165, 194, 243, 0.4);
 	color: var(--color-primary);
 	font-size: 0.92rem;
 	text-decoration: none;
@@ -201,15 +219,15 @@ main {
 
 .prose p,
 .prose li {
-	color: #3f3a35;
+	color: #2d446d;
 }
 
 .prose pre {
 	overflow-x: auto;
 	padding: 18px;
-	border-radius: 8px;
-	background: #24211d;
-	color: #fff7ea;
+	border-radius: 12px;
+	background: #142541;
+	color: #edf4ff;
 }
 
 .prose code {
@@ -219,7 +237,7 @@ main {
 .prose :not(pre) > code {
 	padding: 2px 5px;
 	border-radius: 4px;
-	background: rgba(32, 106, 93, 0.12);
+	background: rgba(74, 109, 180, 0.14);
 	color: var(--color-primary-strong);
 }
 
