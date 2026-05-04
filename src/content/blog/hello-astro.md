@@ -6,6 +6,7 @@ tags:
   - Astro
   - 博客
 featured: true
+draft: true
 ---
 
 这是第一篇示例文章。你可以在 `src/content/blog` 目录中继续添加 Markdown 文件，每个文件都会变成一篇独立的博客文章。
