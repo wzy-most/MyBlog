@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllTags, sitePath } from '../../utils/posts';
+
+const tags = await getAllTags();
+---
+
+<BaseLayout title="标签" description="按标签浏览博客文章。">
+	<section>
+		<p class="eyebrow">Tags</p>
+		<h1 class="page-title">标签</h1>
+		<p class="lead">用主题快速找到相关内容。</p>
+	</section>
+
+	<section class="section">
+		<ul class="tag-list">
+			{
+				tags.map((tag) => (
+					<li>
+						<a class="tag" href={sitePath(`/tags/${tag.slug}/`)}>
+							{tag.name} ({tag.count})
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</BaseLayout>

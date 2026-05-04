@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, sitePath } from '../utils/posts';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+	headingLevel?: 2 | 3;
+}
+
+const { post, headingLevel = 2 } = Astro.props;
+const Heading = `h${headingLevel}` as const;
+---
+
+<a class="post-card" href={sitePath(`/blog/${post.id}/`)}>
+	<div class="post-meta">
+		<time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+		{post.data.featured && <span>精选</span>}
+	</div>
+	<Heading>{post.data.title}</Heading>
+	<p>{post.data.description}</p>
+	{
+		post.data.tags.length > 0 && (
+			<ul class="tag-list" aria-label="文章标签">
+				{post.data.tags.map((tag) => (
+					<li>
+						<span class="tag">{tag}</span>
+					</li>
+				))}
+			</ul>
+		)
+	}
+</a>

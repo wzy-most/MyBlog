@@ -1,0 +1,19 @@
+---
+import PostCard from '../../components/PostCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../utils/posts';
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout title="文章" description="博客文章列表。">
+	<section>
+		<p class="eyebrow">Archive</p>
+		<h1 class="page-title">全部文章</h1>
+		<p class="lead">按发布时间倒序排列的所有公开文章。</p>
+	</section>
+
+	<section class="section post-list">
+		{posts.map((post) => <PostCard post={post} />)}
+	</section>
+</BaseLayout>

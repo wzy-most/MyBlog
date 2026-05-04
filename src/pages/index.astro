@@ -1,11 +1,65 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_DESCRIPTION } from '../consts';
+import { getPublishedPosts, sitePath } from '../utils/posts';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const posts = await getPublishedPosts();
+const featuredPosts = posts.filter((post) => post.data.featured).slice(0, 3);
+const latestPosts = posts.slice(0, 6);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout>
+	<section>
+		<p class="eyebrow">Personal Blog</p>
+		<h1 class="page-title">写代码，也记录代码之外的事。</h1>
+		<p class="lead">{SITE_DESCRIPTION}</p>
+	</section>
+
+	{
+		featuredPosts.length > 0 && (
+			<section class="section">
+				<p class="eyebrow">精选文章</p>
+				<div class="post-grid">
+					{featuredPosts.map((post) => <PostCard post={post} />)}
+				</div>
+			</section>
+		)
+	}
+
+	<section class="section">
+		<div class="section-heading">
+			<div>
+				<p class="eyebrow">最新文章</p>
+				<h2>最近更新</h2>
+			</div>
+			<a href={sitePath('/blog/')}>查看全部</a>
+		</div>
+		<div class="post-list">
+			{latestPosts.map((post) => <PostCard post={post} headingLevel={3} />)}
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.section-heading {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 18px;
+		margin-bottom: 18px;
+	}
+
+	.section-heading h2 {
+		margin: 0;
+		font-size: 1.8rem;
+		line-height: 1.2;
+	}
+
+	@media (max-width: 620px) {
+		.section-heading {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+	}
+</style>
