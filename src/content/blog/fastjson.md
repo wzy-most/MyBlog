@@ -8,6 +8,9 @@ tags:
 featured: true
 draft: false
 ---
+## 漏洞描述
+ Fastjson 是一个 Java 库,可以将 Java 对象转换为 JSON 格式,当然它也可以将 JSON 字符串转换为 Java 对象 Fastjson提供了autotype功能，允许用户在反序列化数据中通过“@type”指定反序列化的类型，其次，Fastjson自定义的反序列化机制时会调用指定类中的setter方法及部分getter方法，那么当组件开启了autotype功能并且反序列化不可信数据时，攻击者可以构造数据，使目标应用的代码执行流程进入特定类的特定setter或者getter方法中，若指定类的指定方法中有可被恶意利用的逻辑（也就是通常所指的“Gadget”），则会造成一些严重的安全问题。
+
 
 ## 环境
 
@@ -109,11 +112,3 @@ Content-Length: 172
 ```
 
 ![请求与结果](/MyBlog/img/fastjson/5.png)
-
-## 图片访问说明
-
-本文图片使用站点绝对路径：`/MyBlog/img/fastjson/*.png`。
-部署到 GitHub Pages 后，可直接通过远程 URL 访问，例如：
-
-- [https://wzy-most.github.io/MyBlog/img/fastjson/1.png](https://wzy-most.github.io/MyBlog/img/fastjson/1.png)
-- [https://wzy-most.github.io/MyBlog/img/fastjson/2.png](https://wzy-most.github.io/MyBlog/img/fastjson/2.png)
