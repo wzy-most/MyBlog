@@ -1,0 +1,599 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="留言板" description="欢迎在这里留下你的想法与建议。">
+	<section class="guestbook-hero">
+		<div class="hero-overlay"></div>
+		<div class="hero-inner">
+			<p class="hero-kicker">Guestbook</p>
+			<h1 class="hero-title">留言板</h1>
+			<p class="hero-subtitle">写下你的想法、建议或一句问候。</p>
+		</div>
+	</section>
+
+	<section class="guestbook-wrap">
+		<div class="board-head">
+			<h2>留言区</h2>
+			<p>你的留言会保存在当前浏览器中。</p>
+		</div>
+
+		<form class="guestbook-form" data-guestbook-form>
+			<div class="form-row">
+				<label>
+					<span>昵称</span>
+					<input name="name" type="text" maxlength="24" placeholder="怎么称呼你" required />
+				</label>
+				<label>
+					<span>联系方式</span>
+					<input name="contact" type="text" maxlength="40" placeholder="邮箱 / 站点 / 微信" />
+				</label>
+			</div>
+			<label>
+				<span>留言内容</span>
+				<textarea name="message" rows="5" maxlength="500" placeholder="写点什么吧..." required></textarea>
+			</label>
+			<div class="form-actions">
+				<p class="tips">支持换行。请勿填写敏感信息。</p>
+				<button type="submit" class="submit-btn">发布留言</button>
+			</div>
+		</form>
+
+		<div class="message-panel">
+			<div class="message-head">
+				<h3><span data-comment-count>0</span> 评论</h3>
+			</div>
+			<ul class="message-list" data-message-list></ul>
+			<p class="empty" data-empty-state>还没有留言，来写下第一条吧。</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.guestbook-hero {
+		position: relative;
+		overflow: hidden;
+		min-height: 300px;
+		border-radius: 24px;
+		background:
+			radial-gradient(circle at 20% 18%, rgba(145, 188, 255, 0.42), transparent 32%),
+			radial-gradient(circle at 80% 14%, rgba(77, 116, 193, 0.45), transparent 28%),
+			linear-gradient(140deg, #1e3563 0%, #325191 55%, #3f63af 100%);
+		box-shadow: 0 26px 56px rgba(15, 33, 68, 0.34);
+	}
+
+	.guestbook-hero::after {
+		position: absolute;
+		inset: 0;
+		content: '';
+		background:
+			repeating-linear-gradient(
+				115deg,
+				rgba(255, 255, 255, 0.08) 0,
+				rgba(255, 255, 255, 0.08) 12px,
+				transparent 12px,
+				transparent 32px
+			),
+			linear-gradient(180deg, rgba(6, 14, 34, 0.2), rgba(6, 14, 34, 0.38));
+		pointer-events: none;
+	}
+
+	.hero-overlay {
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(circle at 50% 52%, rgba(255, 255, 255, 0.1), transparent 48%);
+	}
+
+	.hero-inner {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		padding: 56px 20px;
+		text-align: center;
+	}
+
+	.hero-kicker {
+		margin: 0;
+		color: rgba(234, 242, 255, 0.85);
+		font-size: 0.9rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.hero-title {
+		margin: 8px 0 4px;
+		color: #f6f9ff;
+		font-size: clamp(2rem, 8vw, 3.2rem);
+		letter-spacing: 0.05em;
+	}
+
+	.hero-subtitle {
+		margin: 0;
+		color: rgba(225, 238, 255, 0.92);
+		font-size: 1rem;
+	}
+
+	.guestbook-wrap {
+		margin-top: -42px;
+		position: relative;
+		z-index: 2;
+		display: grid;
+		gap: 18px;
+	}
+
+	.board-head,
+	.guestbook-form,
+	.message-panel {
+		padding: 22px;
+		border: 1px solid var(--color-border);
+		border-radius: 18px;
+		background: color-mix(in srgb, var(--color-surface) 88%, white);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.board-head h2,
+	.message-head h3 {
+		margin: 0;
+		color: var(--color-primary-strong);
+	}
+
+	.board-head p {
+		margin: 6px 0 0;
+		color: var(--color-muted);
+	}
+
+	.guestbook-form {
+		display: grid;
+		gap: 14px;
+	}
+
+	.form-row {
+		display: grid;
+		gap: 12px;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	label {
+		display: grid;
+		gap: 6px;
+	}
+
+	label span {
+		color: var(--color-primary-strong);
+		font-size: 0.95rem;
+		font-weight: 700;
+	}
+
+	input,
+	textarea {
+		width: 100%;
+		padding: 12px 14px;
+		border: 1px solid color-mix(in srgb, var(--color-border) 70%, #9db8ea);
+		border-radius: 14px;
+		outline: none;
+		font: inherit;
+		color: var(--color-text);
+		background: #f8fbff;
+		transition: border-color 180ms ease, box-shadow 180ms ease;
+	}
+
+	input:focus,
+	textarea:focus {
+		border-color: #5a86d6;
+		box-shadow: 0 0 0 4px rgba(90, 134, 214, 0.2);
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 132px;
+	}
+
+	.form-actions {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+	}
+
+	.tips {
+		margin: 0;
+		font-size: 0.9rem;
+		color: var(--color-muted);
+	}
+
+	.submit-btn {
+		padding: 10px 16px;
+		border: 0;
+		border-radius: 999px;
+		font: inherit;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.submit-btn {
+		background: linear-gradient(135deg, #476cb9, #628be0);
+		color: #f3f7ff;
+		box-shadow: 0 10px 18px rgba(20, 45, 90, 0.24);
+	}
+
+	.submit-btn:hover {
+		filter: brightness(1.04);
+	}
+
+	.message-panel {
+		display: grid;
+		gap: 12px;
+	}
+
+	.message-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+	}
+
+	.message-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 0;
+	}
+
+	:global(.message-item) {
+		display: grid;
+		grid-template-columns: 64px 1fr auto;
+		gap: 14px;
+		padding: 20px 0;
+		border-bottom: 1px dashed color-mix(in srgb, var(--color-border) 75%, white);
+	}
+
+	:global(.message-avatar) {
+		width: 52px;
+		height: 52px;
+		display: grid;
+		place-items: center;
+		border: 2px solid #dbe8ff;
+		border-radius: 50%;
+		color: #f8fbff;
+		font-weight: 800;
+		font-size: 1rem;
+		background: linear-gradient(135deg, #4f74c0, #6f95e2);
+	}
+
+	:global(.message-body) {
+		min-width: 0;
+	}
+
+	:global(.message-meta) {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-bottom: 6px;
+	}
+
+	:global(.message-author) {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-weight: 800;
+		font-size: 1.25rem;
+		color: #00b9ad;
+	}
+
+	:global(.message-badge) {
+		padding: 4px 10px;
+		border-radius: 6px;
+		background: #f0f0f0;
+		color: #aaa;
+		font-size: 0.82rem;
+		line-height: 1;
+	}
+
+	:global(.message-contact) {
+		margin-bottom: 6px;
+	}
+
+	:global(.message-contact),
+	:global(.message-time) {
+		font-size: 0.86rem;
+		color: var(--color-muted);
+	}
+
+	:global(.message-content) {
+		margin: 0;
+		font-size: 1.02rem;
+		line-height: 1.8;
+		color: var(--color-text);
+		white-space: pre-wrap;
+	}
+
+	:global(.message-side) {
+		display: grid;
+		align-items: start;
+	}
+
+	:global(.message-reply) {
+		margin-top: 8px;
+		padding: 0 2px;
+		border: 0;
+		background: transparent;
+		color: #ff3b30;
+		font: inherit;
+		font-size: 1.06rem;
+		font-weight: 700;
+		line-height: 1.2;
+		cursor: pointer;
+	}
+
+	:global(.message-reply:hover) {
+		text-decoration: underline;
+	}
+
+	:global(.message-edit) {
+		margin-top: 8px;
+		padding: 0 2px;
+		border: 0;
+		background: transparent;
+		color: #1f59b6;
+		font: inherit;
+		font-size: 0.96rem;
+		font-weight: 700;
+		line-height: 1.2;
+		cursor: pointer;
+	}
+
+	:global(.message-edit:hover) {
+		text-decoration: underline;
+	}
+
+	.empty {
+		margin: 2px 0 0;
+		color: var(--color-muted);
+		font-size: 0.92rem;
+	}
+
+	@media (max-width: 760px) {
+		.guestbook-hero {
+			border-radius: 20px;
+			min-height: 250px;
+		}
+
+		.guestbook-wrap {
+			margin-top: -28px;
+		}
+
+		.form-row {
+			grid-template-columns: 1fr;
+		}
+
+		.form-actions {
+			align-items: stretch;
+			flex-direction: column;
+		}
+
+		.submit-btn,
+		.submit-btn {
+			width: 100%;
+		}
+
+		:global(.message-item) {
+			grid-template-columns: 52px 1fr;
+		}
+
+		:global(.message-side) {
+			grid-column: 2;
+		}
+	}
+</style>
+
+<script>
+	type GuestbookMessage = {
+		id: string;
+		authorId: string;
+		name: string;
+		contact: string;
+		message: string;
+		browser: string;
+		os: string;
+		createdAt: string;
+		updatedAt?: string;
+	};
+
+	const storageKey = 'caption_blog_guestbook_messages';
+	const clientIdStorageKey = 'caption_blog_guestbook_client_id';
+	const form = document.querySelector<HTMLFormElement>('[data-guestbook-form]');
+	const messageList = document.querySelector<HTMLUListElement>('[data-message-list]');
+	const emptyState = document.querySelector<HTMLElement>('[data-empty-state]');
+	const commentCount = document.querySelector<HTMLElement>('[data-comment-count]');
+	const messageInput = document.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
+	let editingMessageId: string | null = null;
+
+	function getClientId() {
+		const existing = localStorage.getItem(clientIdStorageKey);
+		if (existing) return existing;
+		const created = crypto.randomUUID();
+		localStorage.setItem(clientIdStorageKey, created);
+		return created;
+	}
+
+	const clientId = getClientId();
+
+	function loadMessages(): GuestbookMessage[] {
+		const raw = localStorage.getItem(storageKey);
+		if (!raw) return [];
+
+		try {
+			const parsed = JSON.parse(raw);
+			if (!Array.isArray(parsed)) return [];
+			return parsed.filter((item) => item && typeof item === 'object');
+		} catch {
+			return [];
+		}
+	}
+
+	function saveMessages(messages: GuestbookMessage[]) {
+		localStorage.setItem(storageKey, JSON.stringify(messages));
+	}
+
+	function formatDateLabel(iso: string) {
+		const date = new Date(iso);
+		const now = Date.now();
+		const deltaMin = Math.floor((now - date.getTime()) / 60000);
+		if (deltaMin < 1) return '刚刚';
+		if (deltaMin < 60) return `${deltaMin} 分钟前`;
+		if (deltaMin < 24 * 60) return `${Math.floor(deltaMin / 60)} 小时前`;
+		if (deltaMin < 24 * 60 * 7) return `${Math.floor(deltaMin / (24 * 60))} 天前`;
+
+		return new Intl.DateTimeFormat('zh-CN', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		}).format(date);
+	}
+
+	function escapeHTML(input: string) {
+		return input
+			.replaceAll('&', '&amp;')
+			.replaceAll('<', '&lt;')
+			.replaceAll('>', '&gt;')
+			.replaceAll('"', '&quot;')
+			.replaceAll("'", '&#39;');
+	}
+
+	function detectBrowser() {
+		const ua = navigator.userAgent;
+		if (ua.includes('Edg/')) return 'Edge';
+		if (ua.includes('Chrome/')) return 'Chrome';
+		if (ua.includes('Firefox/')) return 'Firefox';
+		if (ua.includes('Safari/') && !ua.includes('Chrome/')) return 'Safari';
+		return 'Unknown';
+	}
+
+	function detectOS() {
+		const ua = navigator.userAgent;
+		if (ua.includes('Windows')) return 'Windows';
+		if (ua.includes('Mac OS X')) return 'macOS';
+		if (ua.includes('Android')) return 'Android';
+		if (ua.includes('iPhone') || ua.includes('iPad')) return 'iOS';
+		if (ua.includes('Linux')) return 'Linux';
+		return 'Unknown';
+	}
+
+	function avatarText(name: string) {
+		const first = name.trim().charAt(0);
+		return first || '?';
+	}
+
+	function renderMessages() {
+		if (!messageList || !emptyState) return;
+		const messages = loadMessages();
+		messageList.innerHTML = '';
+		if (commentCount) commentCount.textContent = String(messages.length);
+
+		if (messages.length === 0) {
+			emptyState.hidden = false;
+			return;
+		}
+
+		emptyState.hidden = true;
+
+		for (const item of messages) {
+			const canEdit = item.authorId === clientId;
+			const li = document.createElement('li');
+			li.className = 'message-item';
+			li.innerHTML = `
+				<div class="message-avatar">${escapeHTML(avatarText(item.name))}</div>
+				<div class="message-body">
+					<div class="message-meta">
+						<div class="message-author">${escapeHTML(item.name)}</div>
+						<span class="message-badge">${escapeHTML(item.browser || 'Unknown')}</span>
+						<span class="message-badge">${escapeHTML(item.os || 'Unknown')}</span>
+						<div class="message-time">${formatDateLabel(item.createdAt)}</div>
+					</div>
+					${
+						item.contact
+							? `<div class="message-contact">${escapeHTML(item.contact)}</div>`
+							: ''
+					}
+					<p class="message-content">${escapeHTML(item.message)}</p>
+				</div>
+				<div class="message-side">
+					<button type="button" class="message-reply" data-message-reply="${item.id}" data-reply-name="${escapeHTML(item.name)}">回复</button>
+					${canEdit ? `<button type="button" class="message-edit" data-message-edit="${item.id}">编辑</button>` : ''}
+				</div>
+			`;
+			messageList.appendChild(li);
+		}
+	}
+
+	form?.addEventListener('submit', (event) => {
+		event.preventDefault();
+		const data = new FormData(form);
+		const name = String(data.get('name') ?? '').trim();
+		const contact = String(data.get('contact') ?? '').trim();
+		const message = String(data.get('message') ?? '').trim();
+
+		if (!name || !message) return;
+
+		const messages = loadMessages();
+		if (editingMessageId) {
+			const target = messages.find((item) => item.id === editingMessageId && item.authorId === clientId);
+			if (target) {
+				target.name = name;
+				target.contact = contact;
+				target.message = message;
+				target.updatedAt = new Date().toISOString();
+			}
+			editingMessageId = null;
+		} else {
+			messages.unshift({
+				id: crypto.randomUUID(),
+				authorId: clientId,
+				name,
+				contact,
+				message,
+				browser: detectBrowser(),
+				os: detectOS(),
+				createdAt: new Date().toISOString(),
+			});
+		}
+
+		saveMessages(messages);
+		form.reset();
+		renderMessages();
+	});
+
+	messageList?.addEventListener('click', (event) => {
+		const target = event.target;
+		if (!(target instanceof HTMLElement)) return;
+
+		const editId = target.getAttribute('data-message-edit');
+		if (editId) {
+			const messages = loadMessages();
+			const hit = messages.find((item) => item.id === editId && item.authorId === clientId);
+			if (!hit || !form) return;
+
+			const nameInput = form.querySelector<HTMLInputElement>('input[name="name"]');
+			const contactInput = form.querySelector<HTMLInputElement>('input[name="contact"]');
+			const msgInput = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
+			if (!nameInput || !contactInput || !msgInput) return;
+
+			nameInput.value = hit.name;
+			contactInput.value = hit.contact;
+			msgInput.value = hit.message;
+			editingMessageId = hit.id;
+			msgInput.focus();
+			return;
+		}
+
+		const replyName = target.getAttribute('data-reply-name');
+		if (!replyName || !messageInput) return;
+		messageInput.value = `@${replyName} `;
+		messageInput.focus();
+	});
+
+	renderMessages();
+</script>
