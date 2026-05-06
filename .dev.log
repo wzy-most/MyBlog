@@ -16,3 +16,17 @@
            [36mhttp://192.168.121.1:4321/MyBlog[39m
            [36mhttp://192.168.137.1:4321/MyBlog[39m
 [2m10:40:43[22m [32mwatching for file changes...[39m
+[2m10:41:21[22m [34m[200][39m / [2m149ms[22m
+[2m10:41:29[22m [34m[200][39m /blog/ [2m18ms[22m
+[2m10:41:43[22m [34m[glob-loader][39m Reloaded data from [32mCVE-2025-41242.md[39m
+[2m10:42:16[22m [34m[glob-loader][39m Reloaded data from [32mCVE-2025-41242.md[39m
+[2m10:42:16[22m [34m[200][39m /blog/ [2m8ms[22m
+[2m10:42:24[22m [34m[200][39m /blog/cve-2025-41242/ [2m16ms[22m
+[2m10:42:52[22m [34m[glob-loader][39m Reloaded data from [32mCVE-2025-41242.md[39m
+[2m10:42:53[22m [34m[200][39m /blog/cve-2025-41242/ [2m10ms[22m
+[2m10:43:04[22m [34m[200][39m / [2m12ms[22m
+[2m10:43:16[22m [34m[glob-loader][39m Reloaded data from [32mfastjson.md[39m
+[2m10:43:17[22m [34m[200][39m / [2m25ms[22m
+[2m10:43:22[22m [34m[200][39m /tags/ [2m7ms[22m
+[2m10:43:25[22m [34m[200][39m /tags/cve/ [2m14ms[22m
+[2m10:47:25[22m [34m[200][39m /guestbook/ [2m18ms[22m
