@@ -1,7 +1,7 @@
 ﻿---
 title: Fastjson 反序列化漏洞复现
 description: 基于 Vulfocus 的 Fastjson（< 1.2.25）反序列化漏洞复现记录。
-pubDate: 2026-05-03
+pubDate: 2026-05-05
 tags:
   - CVE
   - Web安全
