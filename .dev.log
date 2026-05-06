@@ -3,34 +3,16 @@
 > astro dev --host 0.0.0.0 --port 4321
 
 [vite] connected.
-[2m22:12:01[22m [34m[types][39m Generated [2m1ms[22m
+[2m10:40:43[22m [34m[types][39m Generated [2m1ms[22m
 [vite] connected.
-[2m22:12:01[22m [34m[content][39m Syncing content
-[2m22:12:01[22m [34m[content][39m Astro config changed
-[2m22:12:01[22m [34m[content][39m Clearing content store
-[2m22:12:01[22m [34m[content][39m Synced content
-[2m22:12:01[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
-[42m[1m astro [22m[49m [32mv6.2.1[39m [2mready in[22m 1501 [2mms[22m
+[2m10:40:43[22m [34m[content][39m Syncing content
+[2m10:40:43[22m [34m[content][39m Synced content
+[2m10:40:43[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
+[42m[1m astro [22m[49m [32mv6.2.1[39m [2mready in[22m 1321 [2mms[22m
 [2m┃[22m Local    [36mhttp://localhost:4321/MyBlog[39m
 [2m┃[22m Network  [36mhttp://172.19.128.1:4321/MyBlog[39m
            [36mhttp://172.20.39.3:4321/MyBlog[39m
-           [36mhttp://100.103.45.229:4321/MyBlog[39m
+           [36mhttp://100.103.43.104:4321/MyBlog[39m
            [36mhttp://192.168.121.1:4321/MyBlog[39m
            [36mhttp://192.168.137.1:4321/MyBlog[39m
-[2m22:12:01[22m [32mwatching for file changes...[39m
-[2m22:12:28[22m [34m[glob-loader][39m Reloaded data from [32mfastjson.md[39m
-[2m22:13:05[22m [34m[200][39m / [2m181ms[22m
-[2m22:13:07[22m [34m[200][39m /blog/fastjson/ [2m17ms[22m
-[2m22:15:29[22m [34m[glob-loader][39m Reloaded data from [32mfastjson.md[39m
-[2m22:15:31[22m [34m[200][39m /blog/fastjson/ [2m14ms[22m
-[2m22:15:35[22m [34m[glob-loader][39m Reloaded data from [32mfastjson.md[39m
-[2m22:15:36[22m [34m[200][39m /blog/fastjson/ [2m13ms[22m
-[2m22:15:38[22m [34m[200][39m /blog/fastjson/ [2m6ms[22m
-[2m22:15:46[22m [34m[200][39m /blog/fastjson/ [2m19ms[22m
-[2m23:20:04[22m [34m[200][39m /blog/fastjson/ [2m7ms[22m
-[2m23:20:09[22m [34m[glob-loader][39m Reloaded data from [32mfastjson.md[39m
-[2m23:20:10[22m [34m[200][39m /blog/fastjson/ [2m8ms[22m
-[2m23:20:12[22m [34m[200][39m /blog/fastjson/ [2m5ms[22m
-[2m23:20:15[22m [34m[glob-loader][39m Reloaded data from [32mfastjson.md[39m
-[2m23:22:24[22m [34m[glob-loader][39m Reloaded data from [32mfastjson.md[39m
-[2m23:29:14[22m [34m[glob-loader][39m Reloaded data from [32mfastjson.md[39m
+[2m10:40:43[22m [32mwatching for file changes...[39m

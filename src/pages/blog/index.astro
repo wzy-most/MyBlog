@@ -1,4 +1,4 @@
----
+﻿---
 import PostCard from '../../components/PostCard.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getPublishedPosts } from '../../utils/posts';
@@ -6,14 +6,194 @@ import { getPublishedPosts } from '../../utils/posts';
 const posts = await getPublishedPosts();
 ---
 
-<BaseLayout title="文章" description="博客文章列表。">
-	<section>
+<BaseLayout title="文章" description="按时间排序浏览所有公开文章，并支持关键词搜索。">
+	<section class="archive-hero">
 		<p class="eyebrow">Archive</p>
 		<h1 class="page-title">全部文章</h1>
-		<p class="lead">按发布时间倒序排列的所有公开文章。</p>
+		<p class="lead">按发布时间倒序排列，可通过标题、摘要、标签快速搜索。</p>
+		<div class="archive-stats">
+			<span>共 <strong data-total-count>{posts.length}</strong> 篇</span>
+			<span>当前显示 <strong data-visible-count>{posts.length}</strong> 篇</span>
+		</div>
 	</section>
 
-	<section class="section post-list">
-		{posts.map((post) => <PostCard post={post} />)}
+	<section class="search-panel section" aria-label="文章搜索">
+		<label class="search-label" for="post-search">关键词搜索</label>
+		<div class="search-box">
+			<input
+				id="post-search"
+				type="search"
+				placeholder="输入关键词：标题 / 摘要 / 标签"
+				autocomplete="off"
+				data-post-search
+			/>
+			<button type="button" class="search-clear" data-search-clear>清除</button>
+		</div>
+		<p class="search-hint" data-search-hint>支持模糊匹配，输入后即时过滤。</p>
 	</section>
+
+	<section class="section post-list" data-post-list>
+		{
+			posts.map((post) => {
+				const searchText = [post.data.title, post.data.description, ...post.data.tags].join(' ').toLowerCase();
+				return (
+					<div class="search-item" data-search-item data-search-text={searchText}>
+						<PostCard post={post} />
+					</div>
+				);
+			})
+		}
+	</section>
+
+	<p class="empty-result section" data-empty-result hidden>没有找到匹配的文章，试试更短的关键词或换个标签。</p>
 </BaseLayout>
+
+<style>
+	.archive-hero {
+		display: grid;
+		gap: 10px;
+		padding: 24px;
+		border: 1px solid var(--color-border);
+		border-radius: 18px;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(242, 248, 255, 0.95));
+		box-shadow: var(--shadow-soft);
+	}
+
+	.archive-hero .lead {
+		margin: 0;
+	}
+
+	.archive-stats {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		color: var(--color-muted);
+		font-size: 0.94rem;
+	}
+
+	.archive-stats strong {
+		color: var(--color-primary-strong);
+	}
+
+	.search-panel {
+		display: grid;
+		gap: 10px;
+		padding: 18px;
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		background: color-mix(in srgb, var(--color-surface) 92%, white);
+	}
+
+	.search-label {
+		font-weight: 700;
+		color: var(--color-primary-strong);
+	}
+
+	.search-box {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: 10px;
+	}
+
+	.search-box input {
+		padding: 12px 14px;
+		border: 1px solid color-mix(in srgb, var(--color-border) 72%, #9db8ea);
+		border-radius: 12px;
+		font: inherit;
+		color: var(--color-text);
+		background: #f8fbff;
+		outline: none;
+		transition: border-color 180ms ease, box-shadow 180ms ease;
+	}
+
+	.search-box input:focus {
+		border-color: #5a86d6;
+		box-shadow: 0 0 0 4px rgba(90, 134, 214, 0.2);
+	}
+
+	.search-clear {
+		padding: 0 16px;
+		border: 0;
+		border-radius: 999px;
+		background: rgba(76, 113, 186, 0.14);
+		color: var(--color-primary-strong);
+		font: inherit;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.search-hint {
+		margin: 0;
+		font-size: 0.9rem;
+		color: var(--color-muted);
+	}
+
+	.search-item[hidden] {
+		display: none;
+	}
+
+	.empty-result {
+		padding: 16px;
+		border: 1px dashed var(--color-border);
+		border-radius: 14px;
+		color: var(--color-muted);
+		text-align: center;
+	}
+
+	@media (max-width: 720px) {
+		.archive-hero {
+			padding: 18px;
+		}
+
+		.search-box {
+			grid-template-columns: 1fr;
+		}
+
+		.search-clear {
+			height: 42px;
+		}
+	}
+</style>
+
+<script>
+	const searchInput = document.querySelector<HTMLInputElement>('[data-post-search]');
+	const clearButton = document.querySelector<HTMLButtonElement>('[data-search-clear]');
+	const items = Array.from(document.querySelectorAll<HTMLElement>('[data-search-item]'));
+	const visibleCount = document.querySelector<HTMLElement>('[data-visible-count]');
+	const emptyResult = document.querySelector<HTMLElement>('[data-empty-result]');
+	const searchHint = document.querySelector<HTMLElement>('[data-search-hint]');
+
+	function normalizeText(text: string) {
+		return text.trim().toLowerCase();
+	}
+
+	function applySearch(keyword: string) {
+		const key = normalizeText(keyword);
+		let count = 0;
+
+		for (const item of items) {
+			const source = item.dataset.searchText ?? '';
+			const matched = key === '' || source.includes(key);
+			item.hidden = !matched;
+			if (matched) count += 1;
+		}
+
+		if (visibleCount) visibleCount.textContent = String(count);
+		if (emptyResult) emptyResult.hidden = count !== 0;
+
+		if (searchHint) {
+			searchHint.textContent = key
+				? `关键词“${keyword}”匹配到 ${count} 篇文章。`
+				: '支持模糊匹配，输入后即时过滤。';
+		}
+	}
+
+	searchInput?.addEventListener('input', () => applySearch(searchInput.value));
+
+	clearButton?.addEventListener('click', () => {
+		if (!searchInput) return;
+		searchInput.value = '';
+		applySearch('');
+		searchInput.focus();
+	});
+</script>

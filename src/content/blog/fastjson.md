@@ -5,7 +5,7 @@ pubDate: 2026-05-05
 tags:
   - CVE
   - Web安全
-featured: true
+featured: false
 draft: false
 ---
 ## 漏洞描述
