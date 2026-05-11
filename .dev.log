@@ -30,3 +30,11 @@
 [2m10:43:22[22m [34m[200][39m /tags/ [2m7ms[22m
 [2m10:43:25[22m [34m[200][39m /tags/cve/ [2m14ms[22m
 [2m10:47:25[22m [34m[200][39m /guestbook/ [2m18ms[22m
+[31m[1m20:29:59[22m [ERROR] [glob-loader][39m Failed to reload project-notes.md: **blog → project-notes** data does not match collection schema.
+
+  **featured**: **featured**: Expected type `"boolean"`, received `"string"`
+
+[2m20:31:57[22m [34m[glob-loader][39m Reloaded data from [32mproject-notes.md[39m
+[2m20:35:49[22m [34m[glob-loader][39m Reloaded data from [32mtest1.md[39m
+[2m20:38:50[22m [34m[glob-loader][39m Reloaded data from [32mtest1.md[39m
+[2m20:38:51[22m [34m[glob-loader][39m Reloaded data from [32mtest1.md[39m
